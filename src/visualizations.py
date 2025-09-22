@@ -23,13 +23,13 @@ class WeatherVisualizer:
     def weather_dashboard(self):
         """Create comprehensive weather dashboard"""
         fig = make_subplots(
-            rows=2, cols=2,
-            subplot_titles=('Temperature')
+            rows=1, cols=1,
+            subplot_titles=('sdf')
         )
         
         # Add temperature plot
         fig.add_trace(go.Scatter(x=self.data['timestamp'], 
                                y=self.data['temperature']), row=1, col=1)
         
-        # Add other metrics...
+      
         return fig
