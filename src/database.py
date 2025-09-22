@@ -31,6 +31,19 @@ class DatabaseManager:
                 cur.execute(insert_query, weather_data)
                 conn.commit()
     
+    def batch_insert_weather_data(self, weather_data_list):
+        """Insert multiple weather data records in batch"""
+        with self.connect() as conn:
+            with conn.cursor() as cur:
+                insert_query = """
+                INSERT INTO weather_data 
+                (city, timestamp, temperature, humidity, pressure, 
+                 wind_speed, weather_condition)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                """
+                cur.executemany(insert_query, weather_data_list)
+                conn.commit()
+    
     def get_weather_data(self, city, days=30):
         """Retrieve weather data for visualization"""
         query = """

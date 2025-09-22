@@ -4,8 +4,9 @@ from meteostat import Daily, Point
 import pandas as pd
 
 class WeatherDataFetcher:
-    def __init__(self, api_key=None):
+    def __init__(self, api_key=None, db_manager=None):
         self.api_key = api_key  # Not needed for Meteostat
+        self.db_manager = db_manager  # Add database manager
 
     def get_city_coordinates(self, city):
         # Hardcode or use a lookup for demonstration; you can expand this as needed
@@ -45,3 +46,21 @@ class WeatherDataFetcher:
             }
             data.append(record)
         return data
+
+    def fetch_and_store_weather(self, city, days=30):
+        """Fetch weather data and store it directly in the database"""
+        weather_data = self.fetch_historical_weather(city, days)
+        stored_count = 0
+        
+        for data in weather_data:
+            try:
+                # Parse the weather data
+                parsed_data = parse_weather_api_response(data)
+                # Store in database
+                if self.db_manager:
+                    self.db_manager.insert_weather_data(parsed_data)
+                    stored_count += 1
+            except Exception as e:
+                print(f"Error storing data for {city}: {str(e)}")
+        
+        return f"Stored {stored_count} weather records for {city}"

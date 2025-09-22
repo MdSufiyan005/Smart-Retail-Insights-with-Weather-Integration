@@ -10,10 +10,7 @@ CREATE TABLE weather_data (
     humidity INTEGER,
     pressure DECIMAL(7,2),
     wind_speed DECIMAL(5,2),
-    wind_direction INTEGER,
     weather_condition VARCHAR(50),
-    visibility DECIMAL(5,2),
-    uv_index DECIMAL(3,1),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
